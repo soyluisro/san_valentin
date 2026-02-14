@@ -1,0 +1,319 @@
+/* Design System */
+:root {
+    --bg: #fdfaf7;
+    --purple: #8e7db9;
+    --purple-dark: #7a6aa8;
+    --envelope: #e4d7e8;
+    --envelope-dark: #d5c2da;
+    --text: #3d3b3c;
+    --text-light: #7a7576;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--bg);
+    font-family: 'Montserrat', sans-serif;
+    color: var(--text);
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.content-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2vh 5vw;
+}
+
+/* Envelope Structure - Scales to fit viewport */
+.envelope-container {
+    position: relative;
+    width: min(340px, 70vw);
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.envelope-container:hover:not(.active) {
+    transform: translateY(-3px);
+}
+
+.envelope {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1.6 / 1;
+    background: var(--envelope);
+    border-radius: 4px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Envelope Flap */
+.flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    border-left: 50% solid transparent;
+    border-right: 50% solid transparent;
+    border-top: min(120px, 20vh) solid var(--envelope-dark);
+    transform-origin: top center;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 100;
+}
+
+.envelope-container.active .flap {
+    transform: rotateX(180deg);
+    z-index: 1;
+}
+
+/* Envelope Front */
+.front {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 55%;
+    background: linear-gradient(to top, var(--envelope) 50%, transparent);
+    z-index: 50;
+    pointer-events: none;
+}
+
+/* Wax Seal */
+.seal {
+    position: absolute;
+    top: min(100px, 15vh);
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: min(2.5rem, 5vh);
+    z-index: 150;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.1));
+    transition: all 0.4s;
+}
+
+.envelope-container.active .seal {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.5);
+}
+
+/* The Letter - Constrained to viewport */
+.letter {
+    position: absolute;
+    top: 8%;
+    left: 5%;
+    width: 90%;
+    background: white;
+    padding: min(2rem, 3vh) min(1.5rem, 4vw);
+    border-radius: 3px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+    z-index: 10;
+    transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+    max-height: 80%;
+    overflow: hidden;
+}
+
+.envelope-container.active .letter {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(400px, 85vw);
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.12);
+    z-index: 200;
+}
+
+.letter-inner {
+    opacity: 0;
+    transition: opacity 0.5s 0.7s;
+}
+
+.envelope-container.active .letter-inner {
+    opacity: 1;
+}
+
+/* Typography - Responsive sizing */
+.salutation {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.2rem, 4vw, 1.5rem);
+    color: var(--purple);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.message-body {
+    margin-bottom: 1.5rem;
+}
+
+.message-body p {
+    font-size: clamp(0.85rem, 2.5vw, 0.9rem);
+    line-height: 1.7;
+    color: var(--text-light);
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.anniversary {
+    font-size: clamp(0.7rem, 2vw, 0.75rem) !important;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center !important;
+    color: #bbb !important;
+    margin-top: 1.5rem !important;
+}
+
+.heart-message {
+    font-size: clamp(0.85rem, 2.5vw, 0.95rem) !important;
+    text-align: center !important;
+    color: var(--purple) !important;
+    font-weight: 500;
+    margin-top: 1.5rem !important;
+    font-style: italic;
+}
+
+.question-area {
+    text-align: center;
+}
+
+.question {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.3rem, 4.5vw, 1.7rem);
+    line-height: 1.3;
+    margin-bottom: 1.5rem;
+    color: var(--text);
+}
+
+/* Buttons */
+.btn-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 0.7rem 1.5rem;
+    font-size: clamp(0.7rem, 2vw, 0.8rem);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.25s;
+    border-radius: 2px;
+}
+
+.btn-yes {
+    background: var(--purple);
+    color: white;
+}
+
+.btn-yes:hover {
+    background: var(--purple-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(142, 125, 185, 0.3);
+}
+
+.btn-no {
+    background: #f5f5f5;
+    color: #999;
+}
+
+/* Instruction Text */
+.tap-instruction {
+    text-align: center;
+    font-size: clamp(0.65rem, 1.8vw, 0.7rem);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--purple);
+    opacity: 0.6;
+    transition: opacity 0.3s;
+    margin-top: 2vh;
+}
+
+.envelope-container.active~.tap-instruction {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Success Overlay */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.98);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s;
+}
+
+.overlay:not(.hidden) {
+    opacity: 1;
+    visibility: visible;
+}
+
+.overlay-card {
+    text-align: center;
+    padding: 3vh 5vw;
+    max-width: min(500px, 90vw);
+}
+
+.overlay-card h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 6vw, 3rem);
+    color: var(--purple);
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.overlay-card p {
+    font-size: clamp(1rem, 3vw, 1.1rem);
+    color: var(--text-light);
+    margin-bottom: 3rem;
+    line-height: 1.6;
+}
+
+.overlay-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: clamp(0.65rem, 1.8vw, 0.7rem);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #ccc;
+}
+
+.dot {
+    opacity: 0.5;
+}
+
+/* Scrollbar styling for letter when needed */
+.letter::-webkit-scrollbar {
+    width: 4px;
+}
+
+.letter::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.letter::-webkit-scrollbar-thumb {
+    background: var(--purple);
+    border-radius: 2px;
+}

@@ -1,0 +1,6 @@
+/* Force confetti canvas above overlay */
+canvas {
+    position: fixed !important;
+    z-index: 99999 !important;
+    pointer-events: none !important;
+}
